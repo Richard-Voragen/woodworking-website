@@ -1,5 +1,5 @@
 import exp from "constants";
-import { PageHeader } from "../components/PageHeader";
+import { PageHeader } from "../_components/PageHeader";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components/ui/table";
