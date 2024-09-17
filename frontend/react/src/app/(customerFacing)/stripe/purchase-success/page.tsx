@@ -57,10 +57,6 @@ export default async function SuccessPage({ searchParams }: { searchParams: { pa
 }
 
 async function createDownloadVerification(productId: string) {
-
-    console.log("PRODUCT ID")
-    console.log(productId)
-
     return (
         await db.downloadVerification.create({ 
             data: {
