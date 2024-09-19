@@ -19,11 +19,6 @@ import {
   
   function getUsers() {
     return db.user.findMany({
-      select: {
-        id: true,
-        email: true,
-        orders: { select: { priceInCents: true } },
-      },
       orderBy: { createdAt: "desc" },
     })
   }
@@ -58,12 +53,12 @@ import {
           {users.map(user => (
             <TableRow key={user.id}>
               <TableCell>{user.email}</TableCell>
-              <TableCell>{formatNumber(user.orders.length)}</TableCell>
+              <TableCell>{user.password}</TableCell>
               <TableCell>
-                {formatCurrency(
+                {/* {formatCurrency(
                   user.orders.reduce((sum, o) => o.priceInCents + sum, 0) /
                     100
-                )}
+                )} */}
               </TableCell>
               <TableCell className="text-center">
                 <DropdownMenu>

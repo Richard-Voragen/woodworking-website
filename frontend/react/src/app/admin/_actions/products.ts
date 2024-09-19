@@ -35,6 +35,24 @@ export async function addProduct(prevState: unknown, formData: FormData) {
     const imagePath = `/products/${crypto.randomUUID()}-${data.image.name}`
     await fs.writeFile(`public${imagePath}`, Buffer.from(await data.image.arrayBuffer()))
 
+    const email = "richard24680123@gmail.com" as string
+
+    await db.user.create({
+        data: {
+            username: "Test",
+            email,
+            password: "password",
+            orders: {},
+            products: {}
+        }
+    })
+
+    const user = await db.user.findUnique({
+        where: {email: email}
+    })
+
+    if (user == null) return
+
     await db.product.create({ 
         data: {
             isAvailableForPurchase: false,
@@ -42,7 +60,8 @@ export async function addProduct(prevState: unknown, formData: FormData) {
             description: data.description,
             priceInCents: data.priceInCents,
             filePath,
-            imagePath
+            imagePath,
+            ownerId: user.id
         }
     })
 
@@ -73,8 +92,6 @@ export async function updateProduct(id: string, prevState: unknown, formData: Fo
         await fs.unlink(product.filePath)
         filePath = `products/${crypto.randomUUID()}-${data.file.name}`
         await fs.writeFile(filePath, Buffer.from(await data.file.arrayBuffer()))
-
-
     }
 
     let imagePath = product.imagePath
@@ -82,8 +99,6 @@ export async function updateProduct(id: string, prevState: unknown, formData: Fo
         await fs.unlink(`public${product.filePath}`)
         const imagePath = `/products/${crypto.randomUUID()}-${data.image.name}`
         await fs.writeFile(`public${imagePath}`, Buffer.from(await data.image.arrayBuffer()))
-
-
     }
 
     await db.product.update({ 

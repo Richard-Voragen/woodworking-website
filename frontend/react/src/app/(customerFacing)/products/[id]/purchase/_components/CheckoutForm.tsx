@@ -1,6 +1,6 @@
 "use client"
 
-import { userOrderExits } from "@/app/actions/orders"
+import { userOrderExists } from "@/app/actions/orders"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { formatCurrency } from "@/lib/formatters"
@@ -62,9 +62,9 @@ function Form({ priceInCents, productId }: { priceInCents: number, productId: st
         setIsLoading(true)
 
         //Check for existing order
-        const orderExits = await userOrderExits(email, productId)
+        const orderExists = await userOrderExists(email, productId)
 
-        if (orderExits) {
+        if (orderExists) {
             setErrorMessage("You have already purchased this product. Try downloading it from the My Orders page")
             setIsLoading(false)
             return

@@ -1,3 +1,6 @@
+
+
+import db from "@/db/db"
 import { hash } from "node:crypto"
 
 export async function isValidPassword(password: string, hashedPassword: string) {
@@ -11,3 +14,28 @@ async function hashPassword(password: string) {
 
     return Buffer.from(arrayBuffer).toString("base64")
 }
+
+export function getEmailPassword(emailPass: string) {
+    const splitString = emailPass.split(" ")
+    const [email, password] = Buffer.from(splitString[splitString.length - 1], "base64")
+        .toString()
+        .split(":")
+    return [email, password]
+}
+
+export async function verifyAdminEmailPassword(emailPass: string) {
+    const [userEmail, userPassword] = getEmailPassword(emailPass)
+
+
+    return (userEmail === process.env.ADMIN_USERNAME 
+            && await isValidPassword(userPassword, process.env.HASHED_ADMIN_PASSWORD as string))
+}
+
+export async function verifyUserEmailPassword(emailPass: string) {
+    const [userEmail, userPassword] = getEmailPassword(emailPass)
+
+
+    return (userEmail === process.env.USER_EMAIL 
+            && await isValidPassword(userPassword, process.env.HASHED_USER_PASSWORD as string))
+}
+

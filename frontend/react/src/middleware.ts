@@ -1,29 +1,64 @@
 import { NextRequest, NextResponse } from "next/server";
-import { isValidPassword } from "./lib/isValidPassword";
+import { getEmailPassword, verifyAdminEmailPassword, verifyUserEmailPassword } from "./lib/isValidPassword";
 
 export async function middleware(req: NextRequest) {
-    if ((await isAuthenticated(req)) === false) {
-        return new NextResponse("Unauthorized", { 
-            status: 401,
-            headers: { "WWW-Authenticate": "Basic"}
-         })
+    if (!req.url.includes("_next")) {
+        //console.log(req.cookies.get("userId"))
+        isAuthenticated(req)
+    }
+
+    if (req.url.includes("/loginaf")) {
+        console.log(req)
+        logInUser(req)
+    }
+
+
+    if (req.url.includes("/admin")) {
+        if ((await isAuthenticated(req)) === false) {
+            return new NextResponse("Unauthorized", { 
+                status: 401,
+                headers: { "WWW-Authenticate": "Basic"}
+            })
+        }
     }
 }
 
+function logInUser(req: NextRequest) {
+    console.log("THIS SHOULD NOW CHANGE")
+    const nextRes = NextResponse.next()
+
+    nextRes.headers.set('Authorization', "Basic Billy:Bob")
+    return new NextResponse("Unauthorized", { 
+        status: 401,
+        headers: { "WWW-Authenticate": "Basic"}
+    })
+}
+
 async function isAuthenticated(req: NextRequest) {
-    const authHeader = req.headers.get("authorization") || req.headers.get("Authorization")
+
+    if (req.url.includes("/admin")) {
+        const authHeader = req.headers.get("authorization") || req.headers.get("Authorization")
+        if (authHeader == null) return false
+        console.log(authHeader)
+        return verifyAdminEmailPassword(authHeader)
+        console.log(authHeader)
+    }
+
+    let authHeader = req.headers.get("authorization")
+    console.log(authHeader)
 
     if (authHeader == null) return false
+    //console.log(authHeader)
 
     // the authheader looks like basic askldjhfklasjdhf so we need the second value
-    const [username, password] = Buffer.from(authHeader.split(" ")[1], "base64")
-        .toString()
-        .split(":")
+    const [email, password] = getEmailPassword(authHeader)
+
+    console.log("username: ", email)
+    console.log("password: ", password)
+    return verifyUserEmailPassword(authHeader)
     
-    return username === process.env.ADMIN_USERNAME 
-        && await isValidPassword(password, process.env.HASHED_ADMIN_PASSWORD as string)
 }
 
 export const config = {
-    matcher: "/admin/:path*" // run if accessing any page in admin
+    matcher: "/:path*" // run if accessing any page in admin
 }

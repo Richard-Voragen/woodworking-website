@@ -20,7 +20,7 @@ export function ProductForm({ product } : { product?: Product | null }) {
             <div className="space-y-2">
                 <Label htmlFor="name">Name</Label>
                 <Input type="text" id="name" name="name" required defaultValue={product?.name || ""} />
-                {error.name && <div className="text-destructive" >{error.name}</div>}
+                {error!.name && <div className="text-destructive" >{error!.name}</div>}
             </div> 
             <div>
                 <Label htmlFor="name">Price</Label>
@@ -35,18 +35,18 @@ export function ProductForm({ product } : { product?: Product | null }) {
                 <div className="text-muted-forground">
                     {formatCurrency((priceInCents || 0) / 100)}
                 </div>
-                {error.priceInCents && <div className="text-destructive" >{error.priceInCents}</div>}
+                {error!.priceInCents && <div className="text-destructive" >{error!.priceInCents}</div>}
             </div> 
             <div className="space-y-2">
                 <Label htmlFor="">Description</Label>
                 <Textarea id="description" name="description" required defaultValue={product?.description || ""} />
-                {error.description && <div className="text-destructive" >{error.description}</div>}
+                {error!.description && <div className="text-destructive" >{error!.description}</div>}
             </div>
             <div className="space-y-2">
                 <Label htmlFor="">File</Label>
                 <Input type="file" id="file" name="file" required={product == null} />
                 {product != null && <div className="text-muted-foreground">{product.filePath}</div>}
-                {error.file && <div className="text-destructive" >{error.file}</div>}
+                {error!.file && <div className="text-destructive" >{error!.file}</div>}
             </div>
             <div className="space-y-2">
                 <Label htmlFor="">Image</Label>
@@ -59,7 +59,7 @@ export function ProductForm({ product } : { product?: Product | null }) {
                         alt="Product Image"
                     />
                 )}
-                {error.image && <div className="text-destructive" >{error.image}</div>}
+                {error!.image && <div className="text-destructive" >{error!.image}</div>}
             </div>
             <SubmitButton />
         </form>

@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -22,14 +22,19 @@ model Product {
   updatedAt               DateTime        @updatedAt
   orders                  Order[]
   downloadVerifications   DownloadVerification[]
+  ownerId                 String
+  owner                   User            @relation(fields: [ownerId], references: [id], onDelete: Cascade) //If we delete a user, delete all products associated too
 }
 
 model User {
   id                      String          @id @default(uuid())
+  username                String          @unique
   email                   String          @unique
+  password                String
   createdAt               DateTime        @default(now())
   updatedAt               DateTime        @updatedAt
   orders                  Order[]
+  products                Product[]
 }
 
 model Order {
@@ -37,7 +42,6 @@ model Order {
   priceInCents            Int
   createdAt               DateTime        @default(now())
   updatedAt               DateTime        @updatedAt
-
   userId                  String
   productId               String
   user                    User            @relation(fields: [userId], references: [id], onDelete: Cascade) //If we delete a user, delete all purchases associated too
