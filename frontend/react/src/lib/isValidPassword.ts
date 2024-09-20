@@ -1,4 +1,4 @@
-
+"use client"
 
 import db from "@/db/db"
 import { hash } from "node:crypto"
@@ -9,10 +9,10 @@ export async function isValidPassword(password: string, hashedPassword: string) 
     return await hashPassword(password) === hashedPassword
 }
 
-async function hashPassword(password: string) {
+export async function hashPassword(password: string) {
     const arrayBuffer = await crypto.subtle.digest("SHA-512", new TextEncoder().encode(password))
 
-    return Buffer.from(arrayBuffer).toString("base64")
+    return Buffer.from(arrayBuffer).toString("base64") as string
 }
 
 export function getEmailPassword(emailPass: string) {

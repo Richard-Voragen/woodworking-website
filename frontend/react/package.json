@@ -10,6 +10,7 @@
     "email": "copy .\\.env .\\node_modules\\react-email && email dev --dir src\\email --port 3001"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.9.0",
     "@prisma/client": "^5.19.1",
     "@radix-ui/react-alert-dialog": "^1.1.1",
     "@radix-ui/react-dialog": "^1.1.1",
@@ -26,6 +27,7 @@
     "react": "^18",
     "react-cookie": "^7.2.0",
     "react-dom": "^18.3.1",
+    "react-hook-form": "^7.53.0",
     "resend": "^4.0.0",
     "stripe": "^16.11.0",
     "tailwind-merge": "^2.5.2",

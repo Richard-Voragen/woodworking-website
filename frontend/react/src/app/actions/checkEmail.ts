@@ -1,26 +1,12 @@
 "use server"
 
 import db from "@/db/db";
+import { hashPassword } from "@/lib/isValidPassword";
 import { useState, useEffect } from "react";
 import { z } from "zod";
 
-const signUpSchema = z.object({
-    username: z
-      .string()
-      .min(1, { message: "This field has to be filled." })
-      .refine(async (e) => {
-        checkUnique(e)
-      }, "This username is taken."),
-    email: z
-      .string()
-      .min(1, { message: "This field has to be filled." })
-      .email("This is not a valid email.")
-      .refine(async (e) => {
-        checkUnique(e)
-      }, "This email already has an account."),
-})
-
-async function checkUnique(value: string) {
+export async function checkUnique(value: string) {
+  console.log("CALLED EMAIL", value)
   let user = await db.user.findUnique({
     where: {
       username: value
@@ -36,11 +22,26 @@ async function checkUnique(value: string) {
   return true
 }
 
-export async function signUp(prevState: unknown, formData: FormData) {
-  const result = signUpSchema.safeParse(Object.fromEntries(formData.entries()))
-    if (result.success === false) {
-        return result.error.formErrors.fieldErrors
+type createUserType = {
+  username: string
+  email: string
+  password: string
+}
+
+export async function createUser({ username, email, password }: createUserType) {
+  console.log(" USERNAME: ", username)
+  console.log(" EMAIL: ", email)
+  console.log(" PASSWORD: ", password)
+
+  await db.user.create({
+    data: {
+        username,
+        email,
+        password,
+        orders: {},
+        products: {}
     }
+  })
 }
 
 export async function getIdFromEmail(userEmail: string) {

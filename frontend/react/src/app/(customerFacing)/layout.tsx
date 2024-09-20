@@ -1,13 +1,16 @@
 import { LoginSignup } from "@/components/LoginSignup";
 import { Nav, NavLink } from "@/components/nav";
+import { useCookies } from "react-cookie";
+import { confirmUserId } from "../actions/loginUser";
 
 export const dynamic = "force-dynamic"
 
-export default function AdminLayout({
+export default async function AdminLayout({
     children,
     }: Readonly<{
     children: React.ReactNode;
     }>) {
+  
   return <>
     <Nav> 
         <NavLink href="/">Home</NavLink>

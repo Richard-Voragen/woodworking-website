@@ -24,7 +24,6 @@ export async function middleware(req: NextRequest) {
 }
 
 function logInUser(req: NextRequest) {
-    console.log("THIS SHOULD NOW CHANGE")
     const nextRes = NextResponse.next()
 
     nextRes.headers.set('Authorization', "Basic Billy:Bob")
@@ -39,13 +38,10 @@ async function isAuthenticated(req: NextRequest) {
     if (req.url.includes("/admin")) {
         const authHeader = req.headers.get("authorization") || req.headers.get("Authorization")
         if (authHeader == null) return false
-        console.log(authHeader)
         return verifyAdminEmailPassword(authHeader)
-        console.log(authHeader)
     }
 
     let authHeader = req.headers.get("authorization")
-    console.log(authHeader)
 
     if (authHeader == null) return false
     //console.log(authHeader)
@@ -53,8 +49,8 @@ async function isAuthenticated(req: NextRequest) {
     // the authheader looks like basic askldjhfklasjdhf so we need the second value
     const [email, password] = getEmailPassword(authHeader)
 
-    console.log("username: ", email)
-    console.log("password: ", password)
+    //console.log("username: ", email)
+    //console.log("password: ", password)
     return verifyUserEmailPassword(authHeader)
     
 }
