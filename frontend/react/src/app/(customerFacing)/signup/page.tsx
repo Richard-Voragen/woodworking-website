@@ -2,22 +2,11 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import {
-Form,
-FormControl,
-FormDescription,
-FormField,
-FormItem,
-FormLabel,
-FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Form } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import type { Control, FieldPath } from "react-hook-form";
 import { z } from "zod";
-import { cn } from "@/lib/utils";
-import { checkUnique, createUser } from "@/app/actions/checkEmail";
+import { createUser } from "@/lib/checkEmail";
 import { hashPassword } from "@/lib/isValidPassword";
 import { signUpSchema, SignupFormField } from "@/app/(customerFacing)/signup/signupForm";
 
@@ -33,7 +22,6 @@ const SignupForm = () => {
     });
 
     const onSubmit = async (values: z.infer<typeof signUpSchema>) => {
-        console.log(values);
         values.password = await hashPassword(values.password)
         await createUser(values);
     };

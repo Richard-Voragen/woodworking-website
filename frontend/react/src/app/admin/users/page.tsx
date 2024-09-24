@@ -8,7 +8,6 @@ import {
   } from "@/components/ui/table"
   import db from "@/db/db"
   import { formatCurrency, formatNumber } from "@/lib/formatters"
-  import { PageHeader } from "../_components/PageHeader"
   import {
     DropdownMenu,
     DropdownMenuContent,
@@ -16,6 +15,7 @@ import {
   } from "@/components/ui/dropdown-menu"
   import { MoreVertical } from "lucide-react"
   import { DeleteDropDownItem } from "./_components/UserActions"
+  import { PageHeader } from "@/components/PageHeader"
   
   function getUsers() {
     return db.user.findMany({
@@ -42,8 +42,8 @@ import {
         <TableHeader>
           <TableRow>
             <TableHead>Email</TableHead>
-            <TableHead>Orders</TableHead>
-            <TableHead>Value</TableHead>
+            <TableHead>Username</TableHead>
+            <TableHead>Password</TableHead>
             <TableHead className="w-0">
               <span className="sr-only">Actions</span>
             </TableHead>
@@ -53,13 +53,8 @@ import {
           {users.map(user => (
             <TableRow key={user.id}>
               <TableCell>{user.email}</TableCell>
+              <TableCell>{user.username}</TableCell>
               <TableCell>{user.password}</TableCell>
-              <TableCell>
-                {/* {formatCurrency(
-                  user.orders.reduce((sum, o) => o.priceInCents + sum, 0) /
-                    100
-                )} */}
-              </TableCell>
               <TableCell className="text-center">
                 <DropdownMenu>
                   <DropdownMenuTrigger>

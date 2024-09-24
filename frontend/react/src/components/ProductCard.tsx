@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "./ui/button";
 import Link from "next/link";
 import Image from 'next/image'
+import { getUsernameFromId } from "@/lib/checkEmail";
 
 type ProductCardProps = {
     id: string
@@ -10,9 +11,12 @@ type ProductCardProps = {
     priceInCents: number
     description: string
     imagePath: string
+    ownerId: string
 }
 
-export function ProductCard({ id, name, priceInCents, description, imagePath }: ProductCardProps) {
+export function ProductCard({ id, name, priceInCents, description, imagePath, ownerId }: ProductCardProps) {
+
+
     return (
         <Card className="flex overflow-hidden flex-col">
             <div className="relative w-full h-auto aspect-video">
@@ -20,7 +24,7 @@ export function ProductCard({ id, name, priceInCents, description, imagePath }: 
             </div>
             <CardHeader>
                 <CardTitle>{name}</CardTitle>
-                <CardDescription>{formatCurrency(priceInCents / 100)}</CardDescription>
+                <CardDescription>{formatCurrency(priceInCents / 100)}&emsp;&emsp;&emsp; Made By: {getUsernameFromId(ownerId)}</CardDescription>
             </CardHeader>
             <CardContent className="flex-grow">
                 <p className="line-clamp-4">{description}</p>

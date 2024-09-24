@@ -6,7 +6,6 @@ import db from "@/db/db"
 import { notFound, redirect } from "next/navigation"
 import { revalidatePath } from "next/cache"
 import { cookies } from "next/headers"
-import { checkUnique } from "@/lib/checkEmail"
 
 const fileSchema = z.instanceof(File, { message:"Required" })
 const imageSchema = fileSchema.refine(
@@ -14,9 +13,6 @@ const imageSchema = fileSchema.refine(
 )
 
 const addSchema = z.object({
-    email: z.string().min(1).refine(async (e) => {
-        return (!checkUnique(e))
-    }, "This email does not have an account."),
     name: z.string().min(1),
     description: z.string().min(1),
     priceInCents: z.coerce.number().int().min(1),
@@ -25,7 +21,7 @@ const addSchema = z.object({
 })
 
 export async function addProduct(prevState: unknown, formData: FormData) {
-    const result = await addSchema.safeParseAsync(Object.fromEntries(formData.entries()))
+    const result = addSchema.safeParse(Object.fromEntries(formData.entries()))
     if (result.success === false) {
         return result.error.formErrors.fieldErrors
     }
@@ -40,28 +36,32 @@ export async function addProduct(prevState: unknown, formData: FormData) {
     const imagePath = `/products/${crypto.randomUUID()}-${data.image.name}`
     await fs.writeFile(`public${imagePath}`, Buffer.from(await data.image.arrayBuffer()))
 
-    const email = data.email
+    const cookieStore = cookies()
+    const userId = cookieStore.get('user_id')
+    if (userId?.value == null || userId?.value == "") redirect("/")
 
     const user = await db.user.findUnique({
-        where: { email }
+        where: {id: userId!.value}
     })
+
+    if (user == null) return
 
     await db.product.create({ 
         data: {
-            isAvailableForPurchase: false,
+            isAvailableForPurchase: true,
             name: data.name,
             description: data.description,
             priceInCents: data.priceInCents,
             filePath,
             imagePath,
-            ownerId: user!.id
+            ownerId: user.id
         }
     })
 
     revalidatePath("/")
     revalidatePath("/products")
 
-    redirect("/admin/products")
+    redirect("/products")
 }
 
 const editSchema = addSchema.extend({
@@ -108,7 +108,7 @@ export async function updateProduct(id: string, prevState: unknown, formData: Fo
     revalidatePath("/")
     revalidatePath("/products")
 
-    redirect("/admin/products")
+    redirect("/products")
 }
 
 export async function toggleProductAvailablility(id: string, isAvailableForPurchase: boolean) {

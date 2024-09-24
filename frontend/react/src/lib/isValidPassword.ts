@@ -1,8 +1,5 @@
 "use client"
 
-import db from "@/db/db"
-import { hash } from "node:crypto"
-
 export async function isValidPassword(password: string, hashedPassword: string) {
     //console.log(await hashPassword(password))
 

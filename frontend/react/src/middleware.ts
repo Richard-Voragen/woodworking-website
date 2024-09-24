@@ -1,17 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getEmailPassword, verifyAdminEmailPassword, verifyUserEmailPassword } from "./lib/isValidPassword";
 
+const res = NextResponse.next()
+
 export async function middleware(req: NextRequest) {
     if (!req.url.includes("_next")) {
         //console.log(req.cookies.get("userId"))
         isAuthenticated(req)
     }
-
-    if (req.url.includes("/loginaf")) {
-        console.log(req)
-        logInUser(req)
-    }
-
 
     if (req.url.includes("/admin")) {
         if ((await isAuthenticated(req)) === false) {
@@ -34,6 +30,7 @@ function logInUser(req: NextRequest) {
 }
 
 async function isAuthenticated(req: NextRequest) {
+    //console.log(req.cookies)
 
     if (req.url.includes("/admin")) {
         const authHeader = req.headers.get("authorization") || req.headers.get("Authorization")
@@ -44,7 +41,6 @@ async function isAuthenticated(req: NextRequest) {
     let authHeader = req.headers.get("authorization")
 
     if (authHeader == null) return false
-    //console.log(authHeader)
 
     // the authheader looks like basic askldjhfklasjdhf so we need the second value
     const [email, password] = getEmailPassword(authHeader)

@@ -17,7 +17,7 @@ import { useForm } from "react-hook-form";
 import type { Control, FieldPath } from "react-hook-form";
 import { z } from "zod";
 import { cn } from "@/lib/utils";
-import { checkUnique, createUser } from "@/app/actions/checkEmail";
+import { checkUnique, createUser } from "@/lib/checkEmail";
 
 export const signUpSchema = z.object({
     username: z

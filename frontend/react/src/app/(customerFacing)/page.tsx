@@ -1,4 +1,3 @@
-import { LoginSignup } from "@/components/LoginSignup"
 import { ProductCard, ProductCardSkeleton } from "@/components/ProductCard"
 import { Button } from "@/components/ui/button"
 import db from "@/db/db"
@@ -6,7 +5,6 @@ import { cache } from "@/lib/cache"
 import { Product } from "@prisma/client"
 import Link from "next/link"
 import { Suspense } from "react"
-import { cookies } from 'next/headers'
 
 const getMostPopularProducts = cache(
     () => {
@@ -17,7 +15,7 @@ const getMostPopularProducts = cache(
         })
     }, 
     ["/", "getMostPopularProducts"],
-    {revalidate: 60 * 60 * 24}
+    {revalidate: 60}
 )
 
 const getNewestProducts = cache(
@@ -29,7 +27,7 @@ const getNewestProducts = cache(
         })
     },
     ["/", "getNewestProducts"],
-    {revalidate: 60 * 60 * 24}
+    {revalidate: 60}
 )
 
 export default function HomePage() {

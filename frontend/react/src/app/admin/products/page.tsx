@@ -1,5 +1,5 @@
 import exp from "constants";
-import { PageHeader } from "../_components/PageHeader";
+import { PageHeader } from "../../../components/PageHeader";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -9,6 +9,7 @@ import { formatCurrency, formatNumber } from "@/lib/formatters";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { ActiveToggleDropdownItem, CreateAlertDialogContent } from "../_components/ProductActions";
 import { AlertDialogTrigger, AlertDialog } from "@/components/ui/alert-dialog";
+import { getEmailFromId } from "@/lib/checkEmail";
 
 export default function AdminProductsPage() {
     return (
@@ -29,6 +30,7 @@ async function ProductsTable() {
         select: { 
             id: true,
             name: true,
+            ownerId: true,
             priceInCents: true,
             isAvailableForPurchase: true,
             _count: { select: { orders: true }}
@@ -45,6 +47,7 @@ async function ProductsTable() {
                     <span className="sr-only">Available For Purchase</span>
                 </TableHead>
                 <TableHead>Name</TableHead>
+                <TableHead>Creator</TableHead>
                 <TableHead>Price</TableHead>
                 <TableHead>Orders</TableHead>
                 <TableHead className="w-0">
@@ -69,6 +72,7 @@ async function ProductsTable() {
                         )}
                     </TableCell>
                     <TableCell>{product.name}</TableCell>
+                    <TableCell>{getEmailFromId(product.ownerId)}</TableCell>
                     <TableCell>{formatCurrency(product.priceInCents / 100)}</TableCell>
                     <TableCell>{formatNumber(product._count.orders)}</TableCell>
                     <TableCell>

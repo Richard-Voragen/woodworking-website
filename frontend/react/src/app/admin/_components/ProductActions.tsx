@@ -2,7 +2,7 @@
 
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { useTransition, startTransition } from "react";
-import { deleteProduct, toggleProductAvailablility } from "../_actions/products";
+import { deleteProduct, toggleProductAvailablility } from "../../(customerFacing)/_actions/products";
 import { useRouter } from "next/navigation";
 import { AlertDialogHeader, AlertDialogFooter, AlertDialogTrigger, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogTitle } from "@/components/ui/alert-dialog";
 

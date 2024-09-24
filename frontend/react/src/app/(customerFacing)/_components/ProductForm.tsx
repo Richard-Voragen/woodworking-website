@@ -6,10 +6,10 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { formatCurrency } from "@/lib/formatters";
 import { useState } from "react";
+import { addProduct, updateProduct } from "../../(customerFacing)/_actions/products";
 import { useFormState, useFormStatus } from "react-dom";
 import { Product } from "@prisma/client";
 import Image from 'next/image'
-import { addProduct, updateProduct } from "../_actions/products";
 
 export function ProductForm({ product } : { product?: Product | null }) {
     const [error, action] = useFormState(product == null ? addProduct : updateProduct.bind(null, product.id), {}) //bind changes the first property
@@ -17,12 +17,6 @@ export function ProductForm({ product } : { product?: Product | null }) {
 
     return (
         <form action={action} className="space-y-8">
-            <div className="space-y-2">
-                <Label htmlFor="name">Email</Label>
-                <Input type="text" id="email" name="email" required defaultValue={""} />
-                {error!.email && <div className="text-destructive" >{error!.email}</div>}
-            </div> 
-
             <div className="space-y-2">
                 <Label htmlFor="name">Name</Label>
                 <Input type="text" id="name" name="name" required defaultValue={product?.name || ""} />

@@ -3,27 +3,28 @@
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { NavLink } from "./nav"
-import { LogInButton } from "@/context/AuthContext"
-import { redirect, useRouter } from "next/navigation"
-import { revalidatePath } from "next/cache"
+import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { startTransition, useEffect, useState } from "react"
-import { loginUser } from "@/app/actions/loginUser"
-import { Form, FormProvider, useForm } from "react-hook-form"
+import { loginUser } from "@/app/(customerFacing)/_actions/loginUser"
+import { FormProvider, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { loginSchema, LoginFormField } from "./loginForm"
 import { hashPassword } from "@/lib/isValidPassword"
 import { useCookies } from "react-cookie"
+import { LoginState } from "@/lib/loginState"
 
 export function LoginSignup() {
   const router = useRouter()
+  const loginState = LoginState.getInstance()
   const [open, setOpen] = useState(false)
   const [error, setError] = useState(false)
-  const [cookies, setCookie] = useCookies(['userId'])
+  const [userId, setUserId] = useState("")
+
+  loginState.login(userId)
   
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -34,12 +35,11 @@ export function LoginSignup() {
   });
 
   const onSubmit = async (values: z.infer<typeof loginSchema>) => {
-    console.log(values);
     values.password = await hashPassword(values.password)
     setError(await loginUser(values) == null)
     if (await loginUser(values) != null) {
       setOpen(false)
-      setCookie('userId', await loginUser(values), { path: '/' })
+      setUserId(await loginUser(values) as string)
     }
   };
 
@@ -75,7 +75,6 @@ export function LoginSignup() {
               onClick={() => (
                 startTransition(() => {
                   //setOpen(false)
-                  //loginUser()
                 })
               )}
             >
