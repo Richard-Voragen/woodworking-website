@@ -1,3 +1,5 @@
+"use client"
+
 import { ProductForm } from "@/app/(customerFacing)/_components/ProductForm";
 import { PageHeader } from "@/components/PageHeader";
 import db from "@/db/db";
