@@ -24,15 +24,6 @@ export async function verifyAdminEmailPassword(emailPass: string) {
     const [userEmail, userPassword] = getEmailPassword(emailPass)
 
 
-    return (userEmail === process.env.ADMIN_USERNAME 
-            && await isValidPassword(userPassword, process.env.HASHED_ADMIN_PASSWORD as string))
+    return (userEmail === process.env.NEXT_PUBLIC_ADMIN_USERNAME 
+            && await isValidPassword(userPassword, process.env.NEXT_PUBLIC_HASHED_ADMIN_PASSWORD as string))
 }
-
-export async function verifyUserEmailPassword(emailPass: string) {
-    const [userEmail, userPassword] = getEmailPassword(emailPass)
-
-
-    return (userEmail === process.env.USER_EMAIL 
-            && await isValidPassword(userPassword, process.env.HASHED_USER_PASSWORD as string))
-}
-

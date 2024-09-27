@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verifyAdminEmailPassword, verifyUserEmailPassword } from "./lib/isValidPassword";
+import { verifyAdminEmailPassword } from "./lib/isValidPassword";
 
 export async function middleware(req: NextRequest) {
     if (!req.url.includes("_next")) {
@@ -29,6 +29,7 @@ async function isAuthenticated(req: NextRequest) {
     const authHeader = req.headers.get("authorization")
 
     if (authHeader == null) return false
+    return false
 
     // the authheader looks like basic askldjhfklasjdhf so we need the second value
 
@@ -36,7 +37,7 @@ async function isAuthenticated(req: NextRequest) {
     //console.log("username: ", email)
     //console.log("password: ", password)
 
-    return verifyUserEmailPassword(authHeader)
+    //return verifyUserEmailPassword(authHeader)
     
 }
 
