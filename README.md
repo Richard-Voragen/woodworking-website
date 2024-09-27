@@ -27,14 +27,14 @@ This project uses the following:
 
 * You will need to create a .env file within the react folder that looks like this:
 ```
-DATABASE_URL="postgresql://postgres:password@localhost:5432/mydatabase?schema=public"
+NEXT_PUBLIC_DATABASE_URL="postgresql://postgres:password@localhost:5432/mydatabase?schema=public"
 
 ADMIN_USERNAME=admin
 HASHED_ADMIN_PASSWORD=sQnzu7wkTrgkQZF+0G1hi5AI3Qmzvv0bXgc5THBqi7mAsdd4Xll27ASbRt9fEyavWi6m0QP9B8lThf+rDKy8hg== #This is password
-STRIPE_SECRET_KEY=[YOUR SECRET STRIPE KEY]
-STRIPE_WEBHOOK_SECRET=[YOUR PRIVATE STRIPE WEBHOOK KEY]
-RESEND_API_KEY=[API KEY FOR RESEND]
-SENDER_EMAIL=onboarding@resend.dev
+NEXT_PUBLIC_STRIPE_SECRET_KEY=[YOUR SECRET STRIPE KEY]
+NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET=[YOUR PRIVATE STRIPE WEBHOOK KEY]
+NEXT_PUBLIC_RESEND_API_KEY=[API KEY FOR RESEND]
+NEXT_PUBLIC_SENDER_EMAIL=onboarding@resend.dev
 
 NEXT_PUBLIC_STRIPE_PUBLIC_KEY=[YOUR PUBLIC STRIPE KEY]
 NEXT_PUBLIC_SERVER_URL=http://localhost:3000

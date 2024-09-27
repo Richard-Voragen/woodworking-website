@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Stripe from "stripe";
 import { CheckoutForm } from "./_components/CheckoutForm";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string)
+const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY as string)
 
 
 

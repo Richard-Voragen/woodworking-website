@@ -5,7 +5,6 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
     "lint": "next lint",
     "email": "copy .\\.env .\\node_modules\\react-email && email dev --dir src\\email --port 3001"
   },
@@ -25,7 +24,7 @@
     "cookies-next": "^4.2.1",
     "lucide-react": "^0.441.0",
     "next": "14.2.11",
-    "react": "^18",
+    "react": "file:",
     "react-cookie": "^7.2.0",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.53.0",

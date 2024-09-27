@@ -6,7 +6,7 @@ import Link from 'next/link'
 import Stripe from 'stripe'
 import { notFound } from "next/navigation";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string)
+const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY as string)
 
 
 export default async function SuccessPage({ searchParams }: { searchParams: { payment_intent: string } }) {

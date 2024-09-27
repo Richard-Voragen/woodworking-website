@@ -3,15 +3,15 @@ import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe"
 import { Resend } from "resend"
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string)
-const resend = new Resend(process.env.RESEND_API_KEY as string)
+const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY as string)
+const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY as string)
 
 export async function POST(req: NextRequest) {
     console.log("PAYMENT ACCEPTED")
     const event = await stripe.webhooks.constructEvent(
         await req.text(), 
         req.headers.get("stripe-signature") as string,
-        process.env.STRIPE_WEBHOOK_SECRET as string
+        process.env.NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET as string
     )
 
     if (event.type === "charge.succeeded") {
@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
         })
 
         await resend.emails.send({
-            from: `Support <${process.env.SENDER_EMAIL}>`,
+            from: `Support <${process.env.NEXT_PUBLIC_SENDER_EMAIL}>`,
             to: email,
             subject: "Order Confirmation",
             react: (
