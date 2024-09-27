@@ -1,11 +1,14 @@
-"use client"
-
-//import type { Metadata } from "next";
+import type { Metadata } from "next";
 import {Inter} from "next/font/google";
 import {cn} from "@/lib/utils";
 import "./globals.css";
 
 const inter = Inter({subsets: ["latin"], variable: "--font-sans"});
+
+export const metadata: Metadata = {
+  title: "Buy Custom Woodworking",
+  description: "A marketplace to get in contact with other woodworkers.",
+};
 
 export default function RootLayout({
   children,
