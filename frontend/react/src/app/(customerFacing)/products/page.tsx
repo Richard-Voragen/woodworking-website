@@ -1,27 +1,10 @@
-import db from "@/db/db";
-import { cache } from "@/lib/cache";
-import { LoginState } from "@/lib/loginState";
 import { Suspense } from "react";
 import { cookies } from 'next/headers'
 import { PageHeader } from "@/components/PageHeader";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ProductCardSkeleton } from "@/components/ProductCard";
-import { ProductCard } from "../_components/ProductCard";
-
-const getProducts = cache(
-    (userId: string) => {
-        return db.product.findMany({
-            where: { 
-                isAvailableForPurchase: true,
-                ownerId: userId,
-             },
-            orderBy: { name: "asc" },
-        })
-    },
-    ["/products", "getProducts"],
-    {revalidate: 60}
-)
+import { ProductSuspense } from "./_actions/ProductSuspense";
 
 export default function UserProducts() {
     return (
@@ -37,7 +20,7 @@ export default function UserProducts() {
     )
 }
 
-export function ProductCards() {
+function ProductCards() {
     const cookieStore = cookies()
     const userId = cookieStore.get('user_id')
 
@@ -63,12 +46,4 @@ export function ProductCards() {
     }
 
     return <p>You are not Logged in</p>
-}
-
-async function ProductSuspense({userId}: {userId: string}) {
-    console.log(LoginState.getUserId)
-    const products = await getProducts(userId)
-    return products.map(product => 
-        <ProductCard key={product.id} {...product} />
-    )
 }

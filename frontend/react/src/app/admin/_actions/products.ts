@@ -5,7 +5,6 @@ import fs from "fs/promises"
 import db from "@/db/db"
 import { notFound, redirect } from "next/navigation"
 import { revalidatePath } from "next/cache"
-import { cookies } from "next/headers"
 import { checkUnique } from "@/lib/checkEmail"
 
 const fileSchema = z.instanceof(File, { message:"Required" })
@@ -90,7 +89,7 @@ export async function updateProduct(id: string, prevState: unknown, formData: Fo
     let imagePath = product.imagePath
     if (data.image != null && data.image.size > 0) {
         await fs.unlink(`public${product.filePath}`)
-        const imagePath = `/products/${crypto.randomUUID()}-${data.image.name}`
+        imagePath = `/products/${crypto.randomUUID()}-${data.image.name}`
         await fs.writeFile(`public${imagePath}`, Buffer.from(await data.image.arrayBuffer()))
     }
 

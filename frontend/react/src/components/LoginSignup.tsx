@@ -1,24 +1,21 @@
 "use client"
 
-import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from "@/components/ui/dialog"
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { NavLink } from "./nav"
-import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { startTransition, useEffect, useState } from "react"
+import { startTransition, useState } from "react"
 import { loginUser } from "@/app/(customerFacing)/_actions/loginUser"
 import { FormProvider, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { loginSchema, LoginFormField } from "./loginForm"
 import { hashPassword } from "@/lib/isValidPassword"
-import { useCookies } from "react-cookie"
 import { LoginState } from "@/lib/loginState"
 
 export function LoginSignup() {
-  const router = useRouter()
   const loginState = LoginState.getInstance()
   const [open, setOpen] = useState(false)
   const [error, setError] = useState(false)

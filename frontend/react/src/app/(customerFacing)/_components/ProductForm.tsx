@@ -72,7 +72,3 @@ function SubmitButton() {
         {pending ? "Saving..." : "Save"}
     </Button>
 }
-
-function editProduct(state: {}): {} | Promise<{}> {
-    throw new Error("Function not implemented.");
-}

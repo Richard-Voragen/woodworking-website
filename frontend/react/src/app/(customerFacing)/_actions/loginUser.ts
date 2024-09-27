@@ -16,10 +16,6 @@ export async function loginUser({ email, password }: { email: string, password: 
     return user.id
 }
 
-export async function getUsernameFromId({ id }: { id: string }) {
-
-}
-
 export async function confirmUserId({ id }: { id: string }) {
     const user = await db.user.findUnique({
         where: { id }

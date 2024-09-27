@@ -18,14 +18,14 @@ export async function POST(req: NextRequest) {
         const charge = event.data.object
         const productId = charge.metadata.productId
         const email = charge.billing_details.email
-        const priceInCents = charge.amount
+        //const priceInCents = charge.amount
 
         const product = await db.product.findUnique({
             where: { id: productId }
         })
         if (product == null || email == null) return new NextResponse("Bad Request", { status: 400 })
 
-        const userFields = {
+        /* const userFields = {
             email,
             orders: { create: { productId, priceInCents }}
         }
@@ -36,9 +36,9 @@ export async function POST(req: NextRequest) {
             create: userFields, 
             update: userFields,
             select: { orders: { orderBy: { createdAt: "desc"}, take: 1 } }
-        })
+        }) */
 
-        const downloadVerification = await db.downloadVerification.create({
+        await db.downloadVerification.create({
             data: {
                 productId,
                 expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24),

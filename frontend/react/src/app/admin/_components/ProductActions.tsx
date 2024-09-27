@@ -4,7 +4,7 @@ import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { useTransition, startTransition } from "react";
 import { deleteProduct, toggleProductAvailablility } from "../../(customerFacing)/_actions/products";
 import { useRouter } from "next/navigation";
-import { AlertDialogHeader, AlertDialogFooter, AlertDialogTrigger, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import { AlertDialogHeader, AlertDialogFooter, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogTitle } from "@/components/ui/alert-dialog";
 
 
 export function ActiveToggleDropdownItem({ id, isAvailableForPurchase } : {id: string, isAvailableForPurchase: boolean}) {

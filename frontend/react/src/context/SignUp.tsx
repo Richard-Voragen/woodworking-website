@@ -1,7 +1,5 @@
 import db from "@/db/db";
-import { useState, useEffect } from "react";
 import { z } from "zod";
-import { setId } from "../lib/ID";
 
 const signUpSchema = z.object({
     username: z

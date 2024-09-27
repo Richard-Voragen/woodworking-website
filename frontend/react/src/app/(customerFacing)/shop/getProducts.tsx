@@ -1,8 +1,7 @@
 "use server"
 
 import db from "@/db/db"
-import { Suspense } from "react";
-import { ProductCard, ProductCardSkeleton } from "@/components/ProductCard";
+import { ProductCard } from "@/components/ProductCard";
 import { cache } from "@/lib/cache";
 
 

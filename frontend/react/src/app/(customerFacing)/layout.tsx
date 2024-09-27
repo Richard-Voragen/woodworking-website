@@ -2,7 +2,7 @@
 
   import { LoginSignup } from "@/components/LoginSignup";
   import { Nav, NavLink } from "@/components/nav";
-  import { startTransition, useEffect, useState } from "react";
+  import { startTransition, useState } from "react";
   import { LoginState } from "@/lib/loginState";
 
   export const dynamic = "force-dynamic"

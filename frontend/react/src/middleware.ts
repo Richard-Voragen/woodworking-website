@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getEmailPassword, verifyAdminEmailPassword, verifyUserEmailPassword } from "./lib/isValidPassword";
-
-const res = NextResponse.next()
+import { verifyAdminEmailPassword, verifyUserEmailPassword } from "./lib/isValidPassword";
 
 export async function middleware(req: NextRequest) {
     if (!req.url.includes("_next")) {
@@ -19,16 +17,6 @@ export async function middleware(req: NextRequest) {
     }
 }
 
-function logInUser(req: NextRequest) {
-    const nextRes = NextResponse.next()
-
-    nextRes.headers.set('Authorization', "Basic Billy:Bob")
-    return new NextResponse("Unauthorized", { 
-        status: 401,
-        headers: { "WWW-Authenticate": "Basic"}
-    })
-}
-
 async function isAuthenticated(req: NextRequest) {
     //console.log(req.cookies)
 
@@ -38,15 +26,16 @@ async function isAuthenticated(req: NextRequest) {
         return verifyAdminEmailPassword(authHeader)
     }
 
-    let authHeader = req.headers.get("authorization")
+    const authHeader = req.headers.get("authorization")
 
     if (authHeader == null) return false
 
     // the authheader looks like basic askldjhfklasjdhf so we need the second value
-    const [email, password] = getEmailPassword(authHeader)
 
+    //const [email, password] = getEmailPassword(authHeader)
     //console.log("username: ", email)
     //console.log("password: ", password)
+
     return verifyUserEmailPassword(authHeader)
     
 }

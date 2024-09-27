@@ -44,7 +44,7 @@ export class LoginState {
     }
 
     public logout(userId: string): void {
-        const [cookies, setCookie] = useCookies(['user_id'])
+        const [, setCookie] = useCookies(['user_id'])
 
         useEffect(() => {
             if (userId == "logout") {
@@ -55,7 +55,7 @@ export class LoginState {
     }
 
     public login(userId: string): void {
-        const [cookies, setCookie] = useCookies(['user_id'])
+        const [, setCookie] = useCookies(['user_id'])
 
         useEffect(() => {
             if (userId != "") {
