@@ -1,3 +1,5 @@
+"use server"
+
 import { notFound } from "next/navigation"
 import { NextRequest, NextResponse } from "next/server"
 import fs from "fs/promises"
