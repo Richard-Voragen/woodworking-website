@@ -1,17 +1,15 @@
-"use client"
+"use server"
 
-//import { notFound } from "next/navigation"
-import { NextRequest } from "next/server"
-//import fs from "fs/promises"
-//import db from "@/db/db"
-import { downloadFile } from "./download"
+import { notFound } from "next/navigation"
+import { NextRequest, NextResponse } from "next/server"
+import fs from "fs/promises"
+import db from "@/db/db"
 
-export async function GET(
+export async function downloadFile(
     req: NextRequest, 
-    { params: {id}} : {params: { id: string }}
+    id: string
 ) { 
-    return await downloadFile(req, id)
-/*     const product = await db.product.findUnique({
+    const product = await db.product.findUnique({
         where: { id },
         select: { filePath: true, name: true },
     })
@@ -27,5 +25,5 @@ export async function GET(
             "Content-Disposition": `attachment; filename="${product.name}.${extension}"`,
             "Content-Length": size.toString(),
         }
-    }) */
+    })
 }
